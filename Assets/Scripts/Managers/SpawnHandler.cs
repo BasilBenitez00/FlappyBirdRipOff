@@ -20,7 +20,7 @@ public class SpawnHandler : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    private const float delay = 20f;
+    private const float delay = 15f;
 
     private void Start() {
         
