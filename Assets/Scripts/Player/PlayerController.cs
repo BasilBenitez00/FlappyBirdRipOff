@@ -41,10 +41,10 @@ public class PlayerController : MonoBehaviour
 
         }
         currentShootRate = 0f;
-        currentBullets = 5;
-        maxTotalAmmo = 5;
+        currentBullets = 50;
+        maxTotalAmmo = 50;
         fireRate = 0.5f;
-        replenishTime = 2f;
+        replenishTime = 1.5f;
         range =3f;
         
     }
@@ -61,7 +61,9 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetMouseButton(0))
         {
-            
+            if (currentShootRate < fireRate || currentBullets <= 0 )
+		    return;
+
             StartCoroutine(Shoot()) ;
         }
 
@@ -82,8 +84,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        if (currentShootRate < fireRate || currentBullets <= 0 )
-		yield return 0;
+        
 
         
         RaycastHit2D hitInfo = Physics2D.Raycast(shootPoint.position, shootPoint.right,range);
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
     void ReplenishAmmo()
     {
         
-        if(currentBullets < 0)
+        if(currentBullets < maxTotalAmmo)
         {
           
            timer += Time.deltaTime;
