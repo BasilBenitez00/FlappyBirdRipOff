@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
       {
         
         Time.timeScale = 0;
-        ObjectPooler.Instance.AddPooledObjects();  
+        ObjectPooler.Instance.InitializePool();  
     
       }
 
@@ -59,9 +59,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
       }
 
-      public void AddScore()
+      public void AddScore(string type)
       {
-          score++;
+        if(type == "Score")
+        {
+            score++;
+        }else if(type == "Crate")
+        {
+          score += 10;
+        }
+          
       }
 
       private void UpdateScore()

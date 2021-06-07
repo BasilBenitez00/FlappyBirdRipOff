@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class ObjectPooler : MonoBehaviour
 {
      private static ObjectPooler instance;
@@ -20,26 +22,38 @@ public class ObjectPooler : MonoBehaviour
     }
 
     public List<GameObject> pooledObjects;
-    public GameObject objectToPool;
+    public GameObject[] objectToPool;
     public int amount;
 
-    public void AddPooledObjects()
+
+    public void InitializePool()
     {
         pooledObjects = new List<GameObject>();
-        for (int i = 0; i < amount; i++) 
+
+        foreach (var item in objectToPool)
         {
-            GameObject obj = (GameObject)Instantiate(objectToPool);
-            obj.SetActive(false); 
-            pooledObjects.Add(obj);
+            for (int i = 0; i < amount; i++) 
+            {
+               AddPooledObjects(item);
+            }
         }
     }
 
-    public GameObject GetPooledObject()
+    public void AddPooledObjects(GameObject poolObject)
     {
+       
+        GameObject obj = (GameObject)Instantiate(poolObject);
+        obj.SetActive(false); 
+        pooledObjects.Add(obj);
+        
+    }
 
+    public GameObject GetPooledObject(string tag)
+    {
+        
         for (int i = 0; i < pooledObjects.Count; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!pooledObjects[i].activeInHierarchy && pooledObjects[i].CompareTag(tag))
             {
                
                 return pooledObjects[i];
@@ -47,5 +61,7 @@ public class ObjectPooler : MonoBehaviour
         }
        return null;
     }
+
+
 
 }
